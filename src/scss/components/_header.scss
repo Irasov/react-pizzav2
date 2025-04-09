@@ -8,7 +8,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media(max-width: 645px) {
+    column-gap: 20px;
+    @media(max-width: 1009.8px) {
       flex-direction: column;
       row-gap: 20px;
     }
