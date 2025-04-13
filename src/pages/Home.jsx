@@ -1,23 +1,34 @@
 import React from 'react';
+import { useSelector, useDispatch }  from 'react-redux';
+import { setCategotyID } from '../redux/slices/filterSlice';
+
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
+import { SearchContext } from '../App';
 
-const Home = ({searchValue}) => {
+
+const Home = () => {
+  const categoryId = useSelector(state => state.filter.categoryId);
+  const sortType = useSelector(state => state.filter.sort.sortProperty);
+  const dispatch = useDispatch();
+
+  const {searchValue} = React.useContext(SearchContext);
   const [items, setItmes] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const[categoryId, setCategoryId] = React.useState(0);
   const [currentpage, setCurrentPage] = React.useState(1);
-  const[sortType, setSortType] = React.useState(
-    {name: 'популярности', sortProperty: 'rating'}
-  );
+
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategotyID(id));
+  }
 
   React.useEffect(() => {
     setIsLoading(true);
-    const sortBy = sortType.sortProperty.replace('-','');
-    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy = sortType.replace('-','');
+    const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}`: '';
     const search = searchValue ? `&search=${searchValue}` : '';
     fetch(
@@ -32,16 +43,16 @@ const Home = ({searchValue}) => {
       });
       window.scrollTo(0, 0);
   }, [categoryId, sortType, searchValue, currentpage]);
-
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  console.log("items:" + items);
+  const pizzas = items === 'Not found' ? [] : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
 
   return (
     <div className='container'>
     <div className="content__top">
-        <Categories value={categoryId} onChangeCategory={(id)=>{setCategoryId(id)}}/>
-        <Sort value={sortType} onChangeSort={(id)=>{setSortType(id)}} />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory}/>
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
