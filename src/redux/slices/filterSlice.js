@@ -22,9 +22,19 @@ const filterSlice = createSlice({
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
     },
+    setFilters(state, action) {
+      state.sort.sortProperty = action.payload.sort.sortProperty;
+      state.currentPage = Number(action.payload.currentPage);
+      //мой кастыль с проверкой на 0, так как категории 0 нет , и при обновлении страницы пиццы не загружаются
+      if (Number(action.payload.categoryId) === 0) {
+        state.categoryId = 'NaN';
+      } else {
+        state.categoryId = Number(action.payload.categoryId);
+      }
+    },
   },
 });
 
-export const { setCategotyID, setSort, setCurrentPage } = filterSlice.actions;
+export const { setCategotyID, setSort, setCurrentPage, setFilters } = filterSlice.actions;
 
 export default filterSlice.reducer;
