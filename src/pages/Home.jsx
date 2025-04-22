@@ -36,18 +36,30 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   }
 
-  const fetchPizzas = () => {
+  const fetchPizzas =  async () => {
     setIsLoading(true);
     const sortBy = sortType.replace('-','');
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}`: '';
     const search = searchValue ? `&search=${searchValue}` : '';
-      axios.get(`https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      /* await axios.get(`https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
       )
       .then(response => {
         setItmes(response.data);
         setIsLoading(false);
-      });
+      })
+      .catch((err) => {
+        console.error("error:", err );
+        setIsLoading(false);
+      }); */
+    try {
+      const response = await axios.get(`https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`);
+      setItmes(response.data);
+    } catch (error) {
+      console.error("error:", error ); 
+    } finally {
+      setIsLoading(false);  
+    }
   };
 //не вшиваем в адресную строку ничего если не было первого рендера
 
