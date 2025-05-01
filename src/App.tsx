@@ -4,7 +4,6 @@ import NotFound from './pages/NotFound';
 import FullPizza from './pages/FullPizza';
 import Cart from './pages/Cart';
 import { Routes, Route } from 'react-router-dom';
-import React from 'react';
 import MainLoyout from './layouts/MainLayout';
 
 function App() {
