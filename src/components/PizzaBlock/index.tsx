@@ -1,12 +1,12 @@
 import React from "react";
 import {useDispatch, useSelector} from 'react-redux';
-import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
+import { addItem, CartItem, selectCartItemById } from "../../redux/slices/cartSlice";
 import { Link } from "react-router-dom";{}
 
 const typesNames = ["тонкое", "традиционное"];
 
 type PizzaBlockProps = {
-  id:number;
+  id: string;
   title: string;
   price: number;
   imageUrl: string;
@@ -22,14 +22,15 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, size
 
   const addedCount = cartItem ? cartItem.count : 0;
 
-  const onclicAdd = () => {
-    const item = {
+  const onClicAdd = () => {
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       type: typesNames[indexType],
       size: sizes[indexSize],
+      count: 0,
     };
     dispatch(addItem(item));
   }
@@ -37,14 +38,14 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, size
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <Link to={`/pizza/${id}`}> 
+        <Link key = {id} to={`/pizza/${id}`}> 
           <img
           className="pizza-block__image"
             src={imageUrl}
             alt="Pizza"
           />
+          <h4 className="pizza-block__title">{title}</h4>
         </Link>
-        <h4 className="pizza-block__title">{title}</h4>
         <div className="pizza-block__selector">
           <ul>
           {
@@ -63,7 +64,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, size
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <button onClick={onclicAdd} className="button button--outline button--add">
+          <button onClick={onClicAdd} className="button button--outline button--add">
             <svg
               width="12"
               height="12"
