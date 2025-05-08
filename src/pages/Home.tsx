@@ -3,7 +3,7 @@ import qs from 'qs';
 import { useSelector }  from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
-import { selectFilterCategoryId, selectFilterCurrentPage, selectFilterSearchValue, selectFilterSortType, setCategotyID, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { selectFilterCategoryId, selectFilterCurrentPage, selectFilterSearchValue, selectFilterSortType, selectSort, setCategotyID, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 
 import Categories from '../components/Categories';
 import Sort, { list } from '../components/Sort';
@@ -26,13 +26,14 @@ const Home: React.FC = () => {
   const isMounted = React.useRef(false);
 
   const searchValue = useSelector(selectFilterSearchValue);
+  const sort = useSelector(selectSort);
 
   
 
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = React.useCallback((id: number) => {
     dispatch(setCategotyID(id));
-  }
+  }, []);
   const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   }
@@ -98,7 +99,7 @@ const Home: React.FC = () => {
     <div className='container'>
     <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory}/>
-        <Sort />
+        <Sort value = {sort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {
