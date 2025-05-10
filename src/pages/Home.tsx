@@ -3,7 +3,8 @@ import qs from 'qs';
 import { useSelector }  from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
-import { selectFilterCategoryId, selectFilterCurrentPage, selectFilterSearchValue, selectFilterSortType, selectSort, setCategotyID, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setCategotyID, setCurrentPage, setFilters } from '../redux/filter/slice';
+import {selectFilterCategoryId, selectFilterCurrentPage, selectFilterSearchValue, selectFilterSortType, selectSort} from '../redux/filter/selectors';
 
 import Categories from '../components/Categories';
 import Sort, { list } from '../components/Sort';
@@ -11,7 +12,9 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-import { fetchPizzas, SearchPizzaParams, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { selectPizzaData } from '../redux/pizza/selectors';
+import { SearchPizzaParams } from '../redux/pizza/types';
+import { fetchPizzas } from '../redux/pizza/asyncActions';
 import { useAppDispatch } from '../redux/store';
 
 
