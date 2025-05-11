@@ -28,10 +28,12 @@ const cartSlice = createSlice({
       const findItem = state.items.find((obj) => obj.id === action.payload);
       if (findItem) {
         findItem.count--;
+        state.totalPrice = caclTotalPrice(state.items);
       }
     },
     removeItem(state, action: PayloadAction<string>) {
       state.items = state.items.filter((obj) => obj.id !== action.payload);
+      state.totalPrice = caclTotalPrice(state.items);
     },
     clearItems(state) {
       state.items = [];
