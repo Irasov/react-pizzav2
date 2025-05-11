@@ -2,6 +2,7 @@
   "name": "pizza-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://irasov.github.io/react-pizzav2",
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
     "@testing-library/dom": "^10.4.0",
